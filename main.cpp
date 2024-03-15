@@ -3,10 +3,9 @@
 #include "view.hpp"
 
 int main() {
-    View* v = View::get("text");
-    
-    Game g(v);
-    Control c(&g);
+    std::shared_ptr<View> view = View::get("text");
+    Game model;
+    view -> run();
 
-    c.get_user_input();
+    return 0;
 }

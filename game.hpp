@@ -1,16 +1,20 @@
 #pragma once
 
-#include <string.h>
+#include <iostream>
+#include <random>
+#include <chrono>
+#include <list>
 #include "view.hpp"
 
 class Game {
     private:
-    View* view;
-    std::string game_name;
+    unsigned short num_rabbits = 50;
+    std::list<coords> rabbits;
+    coords get_rand_coord();
+    std::mt19937 generator {static_cast<long unsigned int>(std::chrono::system_clock::now().time_since_epoch().count())};
+    void add_rabbit();
 
     public:
-    Game(View* view_) : view(view_) {
-    }
-
-    void set_name(std::string name);
+    Game();
+    void draw_all();
 };
