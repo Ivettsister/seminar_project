@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -Wpedantic
-OBJECTS = control.o game.o view.o main.o
+CXXFLAGS = -std=c++20 -Wall -Wextra -g
+OBJECTS = control.o game.o view.o main.o tview.o gview.o
 TARGET = snake
 
 all: ${TARGET}

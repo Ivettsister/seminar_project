@@ -1,68 +1,34 @@
 #include "view.hpp"
+#include "tview.hpp"
+#include "gview.hpp"
 
-View* View::view = NULL;
+std::shared_ptr<View> View::obj;
 
-View* View::get(std::string s) {
-        if (view) return view;
-
-        if (s == "text") {
-             view = new Tview;
-        }
-        else {
-             view = new Gview;
-        }
-
-        return view;
+std::shared_ptr<View> View::get(std::string s) {
+    if (obj) return obj;
+    if (s == "text") {
+        obj = std::make_shared<Tview>();
+    }
+    else {
+        obj = std::make_shared<Gview>();
+    }
+    return obj;
 }
 
-void Tview::draw() {
-        this->clear_window();
-        this->set_colors(20, 33);
-
-        struct winsize wind_sz = {};
-        ioctl(0, TIOCGWINSZ, &wind_sz);
-
-        int wind_x_sz = wind_sz.ws_row;
-        int wind_y_sz = wind_sz.ws_col;
-
-        for (int i = 1; i < wind_y_sz; i++) {
-                gotoxy(1, i);
-                puts("=");
-                gotoxy(wind_x_sz - 1, i);
-                puts("=");
-        }
-
-        for (int i = 0; i < wind_x_sz; i++) {
-                gotoxy(i, 3);
-                puts("||");
-                gotoxy(i, wind_y_sz - 1);
-                puts("||");
-        }
-
-        gotoxy(1, wind_y_sz / 2 - 3);
-        puts("SNAKE game!");
+coords View::get_max_coord(){
+    return View::max_coords;
 }
 
-void Gview::draw() {
+void View::set_max_coord(int x, int y){
+    View::max_coords.first = x;
+    View::max_coords.second = y;
 }
 
 View::~View() {
 
 }
 
-void Tview::clear_window() {
-        std::cout << "\e[H\e[J" << std::flush;
-
-}
-
-void Tview::set_colors(int brightness, int color) {
-        std::cout << "\e[" << brightness << ";" << color << "m" << std::flush;
-}
-
-void Tview::gotoxy(int x, int y) {
-        std::cout << "\e[" << x << ";" << y << "H" << std::flush;
-}
-
-void Tview::puts(std::string s) {
-        std::cout << s << std::endl;
+void View::draw(coords& rabbit) {
+    std::cout << "\e[" << rabbit.first << ";" << rabbit.second * 2 - 1 << "H";
+    std::cout << "\e[96m❂ ";
 }

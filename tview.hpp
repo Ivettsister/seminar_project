@@ -8,8 +8,10 @@ class Tview: public View {
     void screen_clear();
     void draw_frame();
     void draw(coords& rabbit);
+    struct termios old_state;
 
     public:
+    bool status = true;
     virtual void draw() override;
     virtual void run() override;
     Tview();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <functional>
 #include "game.hpp"
 
 class Control {
@@ -9,5 +10,10 @@ class Control {
 
     public:
     Control(Game* g);
-    void get_user_input();
+};
+
+class Human {
+    public:
+    Human();
+    void key_pressed(int code);
 };

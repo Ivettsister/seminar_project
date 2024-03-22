@@ -4,9 +4,10 @@ Control::Control(Game* g) {
     game = g;
 }
 
-void Control::get_user_input() {
+Human::Human() {
+    auto f = std::bind(&Human::key_pressed, this, std::placeholders::_1);
+}
 
-    char name[20] = {};
-    std::cin >> name;
-    game->set_name(name);
+void Human::key_pressed(int code) {
+
 }
