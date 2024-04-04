@@ -15,20 +15,22 @@ std::shared_ptr<View> View::get(std::string s) {
     return obj;
 }
 
-coords View::get_max_coord(){
-    return View::max_coords;
+coord View::get_max_coord(){
+    return View::max_coord;
 }
 
 void View::set_max_coord(int x, int y){
-    View::max_coords.first = x;
-    View::max_coords.second = y;
+    View::max_coord.first = x;
+    View::max_coord.second = y;
 }
 
 View::~View() {
 
 }
 
-void View::draw(coords& rabbit) {
+/*void View::draw(coord& rabbit) {
     std::cout << "\e[" << rabbit.first << ";" << rabbit.second * 2 - 1 << "H";
-    std::cout << "\e[96m❂ ";
-}
+    std::cout << "\e[96m❂";
+}*/
+
+

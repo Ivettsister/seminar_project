@@ -6,14 +6,9 @@
 
 class Control {
     private:
-    Game* game;
+    Snake* snake;
 
     public:
-    Control(Game* g);
-};
-
-class Human {
-    public:
-    Human();
+    Control(Snake* snake);
     void key_pressed(int code);
 };

@@ -1,4 +1,5 @@
 #include "view.hpp"
+#include "game.hpp"
 #include <functional>
 
 class Tview: public View {
@@ -6,8 +7,8 @@ class Tview: public View {
     void hline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem);
     void vline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem);
     void screen_clear();
-    void draw_frame();
-    void draw(coords& rabbit);
+    void draw(coord& rabbit);
+    void draw(coords& body, dir dir);
     struct termios old_state;
 
     public:

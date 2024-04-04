@@ -4,10 +4,6 @@
 #include <poll.h>
 #include "tview.hpp"
 
-void Tview::draw() {
-        
-}
-
 void Tview::run() {
     /*while (!status) {
         event = getnext();
@@ -15,22 +11,18 @@ void Tview::run() {
     }*/
 
     struct pollfd input = {0, POLLIN, 0};
-    screen_clear();
-    draw_frame();
     status = true;
     while (status) {
     
         update_func();
         
-        if (poll(&input, 1, 1) == 1){
+        if (poll(&input, 1, 500) == 1){
             char inc_char;
             read(0, &inc_char, 1);
-
+            key_func(inc_char);
             if (inc_char == 'q')
                 status = false;
         }
-
-        usleep(10000);
     }
 }
 
@@ -38,36 +30,64 @@ Tview::Tview() {
     tcgetattr(0, &old_state);
     struct termios raw = old_state;    // stty sane <ENTER>
     cfmakeraw(&raw);
+    //raw.c_lflag &= ~(ICANON|ECHO);
     tcsetattr(0, TCSANOW, &raw);
 
     struct winsize win_size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &win_size); 
-    max_coords.first = win_size.ws_row + 1;
-    max_coords.second = win_size.ws_col / 2;
+    max_coord.first = win_size.ws_row + 1;
+    max_coord.second = win_size.ws_col / 2;
 
     
 }  
 
-void Tview::draw_frame() {
+void Tview::draw() {
     struct winsize win_size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &win_size); 
 
-    max_coords.first = win_size.ws_row;
-    max_coords.second = win_size.ws_col; 
+    max_coord.first = win_size.ws_row;
+    max_coord.second = win_size.ws_col; 
 
     screen_clear();
 
-    hline(1, 1, max_coords.second, "\e[33m-");
-    vline(2, 1, max_coords.first - 1, "\e[33m#");
-    vline(2, max_coords.second, max_coords.first - 1, "\e[33m#");
-    hline(max_coords.first, 1, max_coords.second, "\e[33m-");
+    hline(1, 1, max_coord.second, "\e[33m-");
+    vline(2, 1, max_coord.first - 1, "\e[33m#");
+    vline(2, max_coord.second, max_coord.first - 1, "\e[33m#");
+    hline(max_coord.first, 1, max_coord.second, "\e[33m-");
 
     fflush(stdout);
 }
 
-void Tview::draw(coords& rabbit){
+void Tview::draw(coord& rabbit){
     std::cout << "\e[" << rabbit.first << ";" << rabbit.second * 2 - 1 << "H";
-    std::cout << "\e[96m❂";
+    std::cout << "\e[96m🐇";
+}
+
+void Tview::draw(coords& body, dir dir){
+
+    for (auto segment : body) {
+        std::cout << "\e[" << segment.first << ";" << segment.second * 2 - 1 << "H" << std::endl;    // goto xy
+        if (segment == body.front()) {
+                switch (dir) {
+                case dir::RIGHT:
+                    printf("\e[96m⇛ ");
+                    break;
+                case dir::UP:
+                    printf("\e[96m⤊ ");
+                    break;
+                case dir::LEFT:
+                    printf("\e[96m⇚ ");
+                    break;
+                case dir::DOWN:
+                    printf("\e[96m⤋ ");
+                    break;
+                default:
+                    printf("$");
+
+                }
+        }
+        else printf("◉ ");
+    }
 }
 
 void Tview::hline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem) {
