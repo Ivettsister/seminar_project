@@ -1,0 +1,6 @@
+control.o: control.cpp control.hpp game.hpp view.hpp
+game.o: game.cpp game.hpp view.hpp
+view.o: view.cpp view.hpp tview.hpp game.hpp gview.hpp
+main.o: main.cpp game.hpp view.hpp control.hpp
+tview.o: tview.cpp tview.hpp view.hpp game.hpp
+gview.o: gview.cpp gview.hpp view.hpp

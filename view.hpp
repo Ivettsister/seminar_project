@@ -8,8 +8,16 @@
 #include <memory>
 #include <list>
 
-using coord = std::pair<int, int>;
+struct coord : public std::pair<int, int> {
+    using base = std::pair<int, int>;
+    using base::base;
+    int dist(const coord& c) {
+        return std::abs(c.first - first) + std::abs(c.second - second);
+    }
+};
+
 using coords = std::list<coord>;
+
 
 enum class dir {
         UP,
@@ -22,7 +30,7 @@ class View {
 
 
     protected:
-    coord max_coord;
+    static coord max_coord;
     std::function<void()> update_func;
     std::function<void(int)> key_func;
 
@@ -35,8 +43,8 @@ class View {
     virtual ~View();
 
     virtual void draw() = 0;
-    virtual void draw(coord& rabbit) = 0;
-    virtual void draw(coords& body, dir dir) = 0;
+    virtual void draw(const coord& rabbit) = 0;
+    virtual void draw(const coords& body, dir dir) = 0;
 
     void set_update(std::function<void()> f) {
         update_func = f;

@@ -7,13 +7,14 @@ class Tview: public View {
     void hline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem);
     void vline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem);
     void screen_clear();
-    void draw(coord& rabbit);
-    void draw(coords& body, dir dir);
+    void gotoxy(const coord& c);
     struct termios old_state;
 
     public:
     bool status = true;
     virtual void draw() override;
+    virtual void draw(const coord& rabbit);
+    virtual void draw(const coords& body, dir dir);
     virtual void run() override;
     Tview();
     ~Tview();

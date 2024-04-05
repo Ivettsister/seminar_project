@@ -16,7 +16,7 @@ void Tview::run() {
     
         update_func();
         
-        if (poll(&input, 1, 500) == 1){
+        if (poll(&input, 1, 300) == 1){
             char inc_char;
             read(0, &inc_char, 1);
             key_func(inc_char);
@@ -35,59 +35,61 @@ Tview::Tview() {
 
     struct winsize win_size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &win_size); 
-    max_coord.first = win_size.ws_row + 1;
-    max_coord.second = win_size.ws_col / 2;
-
-    
+    max_coord.first = win_size.ws_row - 2;
+    max_coord.second = win_size.ws_col / 2 - 2;
 }  
 
 void Tview::draw() {
-    struct winsize win_size;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win_size); 
+    coord c;
+    struct winsize win_size;fflush(stdout);
 
-    max_coord.first = win_size.ws_row;
-    max_coord.second = win_size.ws_col; 
+    c.first = win_size.ws_row;
+    c.second = win_size.ws_col; 
 
     screen_clear();
 
-    hline(1, 1, max_coord.second, "\e[33m-");
-    vline(2, 1, max_coord.first - 1, "\e[33m#");
-    vline(2, max_coord.second, max_coord.first - 1, "\e[33m#");
-    hline(max_coord.first, 1, max_coord.second, "\e[33m-");
+    hline(1, 1, c.second, "\e[33m-");
+    vline(2, 1, c.first - 1, "\e[33m#");
+    vline(2, c.second, c.first - 1, "\e[33m#");
+    hline(c.first, 1, c.second, "\e[33m-");
 
     fflush(stdout);
 }
 
-void Tview::draw(coord& rabbit){
-    std::cout << "\e[" << rabbit.first << ";" << rabbit.second * 2 - 1 << "H";
-    std::cout << "\e[96m🐇";
+void Tview::gotoxy(const coord& c) {
+    std::cout << "\e[" << c.first + 1 << ";" << c.second * 2 + 2 << "H";
 }
 
-void Tview::draw(coords& body, dir dir){
+void Tview::draw(const coord& rabbit){
+    gotoxy(rabbit);
+    std::cout << "🐇";
+    std::cout << std::flush;
+}
+
+void Tview::draw(const coords& body, dir dir){
 
     for (auto segment : body) {
-        std::cout << "\e[" << segment.first << ";" << segment.second * 2 - 1 << "H" << std::endl;    // goto xy
+        gotoxy(segment);    // goto xy
         if (segment == body.front()) {
                 switch (dir) {
                 case dir::RIGHT:
-                    printf("\e[96m⇛ ");
+                    std::cout << "\e[96m⇛ ";
                     break;
                 case dir::UP:
-                    printf("\e[96m⤊ ");
+                    std::cout << "\e[96m⤊ ";
                     break;
                 case dir::LEFT:
-                    printf("\e[96m⇚ ");
+                    std::cout << "\e[96m⇚ ";
                     break;
                 case dir::DOWN:
-                    printf("\e[96m⤋ ");
+                    std::cout << "\e[96m⤋ ";
                     break;
-                default:
-                    printf("$");
 
                 }
         }
-        else printf("◉ ");
+        else std::cout << "◉ ";
     }
+    std::cout << std::flush;
 }
 
 void Tview::hline(unsigned int x, unsigned int y, unsigned int length, const std::string& elem) {

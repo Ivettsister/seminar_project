@@ -16,11 +16,11 @@ void Gview::draw() {
 
 }
 
-void Gview::draw(coord& rabbit) {
+void Gview::draw(const coord& rabbit) {
     (void) rabbit;
 }
 
-void Gview::draw(coords& body, dir dir) {
+void Gview::draw(const coords& body, dir dir) {
     (void) body;
     (void) dir;
 }

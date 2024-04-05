@@ -13,3 +13,8 @@ run:
 
 clean:
 	${RM} ${OBJECTS} ${TARGET}
+
+depend:
+	${CXX} ${CXXFLAGS} ${OBJECTS:.o=.cpp} -MM >.depend
+
+-include .depend

@@ -3,6 +3,7 @@
 #include "gview.hpp"
 
 std::shared_ptr<View> View::obj;
+coord View::max_coord;
 
 std::shared_ptr<View> View::get(std::string s) {
     if (obj) return obj;
@@ -27,10 +28,3 @@ void View::set_max_coord(int x, int y){
 View::~View() {
 
 }
-
-/*void View::draw(coord& rabbit) {
-    std::cout << "\e[" << rabbit.first << ";" << rabbit.second * 2 - 1 << "H";
-    std::cout << "\e[96m❂";
-}*/
-
-
