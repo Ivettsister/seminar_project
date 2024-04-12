@@ -1,20 +1,11 @@
-size of the window: 35, 62
-max_coord: 35, 62
-new_coord: 3, 60
-max_coord: 35, 62
-new_coord: 26, 26
-max_coord: 35, 62
-new_coord: 24, 50
-max_coord: 35, 62
-new_coord: 12, 36
-max_coord: 35, 62
-new_coord: 20, 19
-coords r: 3, 60
-coords r: 26, 26
-coords r: 24, 50
-coords r: 12, 36
-coords r: 20, 19
-max_coord: 37, 129
-new_coord: 11, 87
-max_coord: 37, 129
-new_coord: 10, 70
+size of the window: 200, 100
+max_coord: 200, 100
+new_coord: 73, 100
+max_coord: 200, 100
+new_coord: 67, 69
+max_coord: 200, 100
+new_coord: 173, 97
+max_coord: 200, 100
+new_coord: 36, 26
+max_coord: 200, 100
+new_coord: 191, 26

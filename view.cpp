@@ -17,12 +17,12 @@ std::shared_ptr<View> View::get(std::string s) {
 }
 
 coord View::get_max_coord(){
-    return View::max_coord;
+    return max_coord;
 }
 
 void View::set_max_coord(int x, int y){
-    View::max_coord.first = x;
-    View::max_coord.second = y;
+    max_coord.first = x;
+    max_coord.second = y;
 }
 
 View::~View() {

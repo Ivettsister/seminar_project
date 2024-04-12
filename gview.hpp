@@ -1,3 +1,5 @@
+#include <SFML/Graphics.hpp>
+
 #include "view.hpp"
 
 class Gview: public View {
@@ -8,4 +10,9 @@ class Gview: public View {
     virtual void run() override;
     Gview();
     ~Gview();
+
+    private:
+    sf::RenderWindow window;
+    sf::CircleShape shape_rabbits;
+    sf::RectangleShape shape_python;
 };
