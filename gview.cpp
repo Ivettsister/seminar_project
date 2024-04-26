@@ -9,7 +9,7 @@ const int s_size = 20;
 Gview::Gview() : window(sf::VideoMode(s_width + 200, s_height), "Snake!")
 {
     std::cout << window.getSize().x << " " << window.getSize().y << std::endl;
-    window.setFramerateLimit(3);
+    window.setFramerateLimit(fps);
     max_coord.first = s_width / s_size;
     max_coord.second = s_height / s_size;
     
@@ -104,19 +104,21 @@ void Gview::draw(const coord& rabbit_) {
     window.draw(rabbit);
 }
 
-void Gview::draw(const coords& body, dir dir) {
+void Gview::draw(const coords& body, dir dir, int score) {
     //sf::RectangleShape shape(sf::Vector2f(s_size, s_size));
-    int count_segment = 0;
-    for (auto segment : body) {
-        if (count_segment == 0) {
-            snake_head.setPosition(segment.first * s_size, segment.second * s_size);
-            window.draw(snake_head);
+    if (score >= 0) {
+        int count_segment = 0;
+        for (auto segment : body) {
+            if (count_segment == 0) {
+                snake_head.setPosition(segment.first * s_size, segment.second * s_size);
+                window.draw(snake_head);
+            }
+            else {
+                snake_body.setPosition(segment.first * s_size, segment.second * s_size);
+                window.draw(snake_body);
+            }
+            count_segment += 1;
         }
-        else {
-            snake_body.setPosition(segment.first * s_size, segment.second * s_size);
-            window.draw(snake_body);
-        }
-        count_segment += 1;
     }
 }
 

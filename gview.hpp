@@ -6,7 +6,7 @@ class Gview: public View {
     public:
     void draw() override;
     void draw(const coord& rabbit) override;
-    void draw(const coords& body, dir dir) override;
+    void draw(const coords& body, dir dir, int score) override;
     void draw_score(int score) override;
     void draw_frame();
     virtual void run() override;

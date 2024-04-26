@@ -8,6 +8,8 @@
 #include <memory>
 #include <list>
 
+const int fps = 3;
+
 struct coord : public std::pair<int, int> {
     using base = std::pair<int, int>;
     using base::base;
@@ -44,7 +46,7 @@ class View {
 
     virtual void draw() = 0;
     virtual void draw(const coord& rabbit) = 0;
-    virtual void draw(const coords& body, dir dir) = 0;
+    virtual void draw(const coords& body, dir dir, int score) = 0;
     virtual void draw_score(int score) = 0;
 
     void set_update(std::function<void()> f) {

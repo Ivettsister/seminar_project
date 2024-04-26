@@ -86,7 +86,7 @@ void Game::update(){
         v -> draw(r);
     
     for (auto s : snakes) {
-        v -> draw(s.body, s.direction);
+        v -> draw(s.body, s.direction, s.score);
         v -> draw_score(s.score);
     }
 }
@@ -100,9 +100,25 @@ Snake::Snake(coord head) {
 }
 
 void Game::snake_action() {
+    auto v = View::get();
     for (auto& snake : snakes) {
         auto new_head = snake.body.front();
         //fprintf(f, "snake head: %d, %d\n", new_head.first, new_head.second);
+        int count = 0;
+        for (auto segment : snake.body) {
+            if ((count != 0) && (segment == new_head)) {
+                snake.score = -1;
+            }
+            count++;
+        }
+
+        if ((new_head.first == 0) || (new_head.first == v->get_max_coord().first)) {
+            snake.score = -1;
+        }
+        if ((new_head.second == 0) || (new_head.second == v->get_max_coord().second)) {
+            snake.score = -1;
+        }
+
         switch (snake.direction) {
             case dir::UP: 
                 new_head.first--;

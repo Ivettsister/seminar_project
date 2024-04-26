@@ -8,7 +8,7 @@ coord View::max_coord;
 std::shared_ptr<View> View::get(std::string s) {
     if (obj) return obj;
     if (s == "text") {
-        obj = std::make_shared<Tview>();
+        obj = std::make_shared<Tview>();        
     }
     else {
         obj = std::make_shared<Gview>();

@@ -16,7 +16,7 @@ void Tview::run() {
     
         update_func();
         
-        if (poll(&input, 1, 300) == 1){
+        if (poll(&input, 1, 1000 / fps) == 1){
             char inc_char;
             read(0, &inc_char, 1);
             key_func(inc_char);
@@ -67,10 +67,10 @@ void Tview::draw(const coord& rabbit){
 }
 
 void Tview::draw_score(int score) {
-    
+
 }
 
-void Tview::draw(const coords& body, dir dir){
+void Tview::draw(const coords& body, dir dir, int score){
 
     for (auto segment : body) {
         gotoxy(segment);    // goto xy
