@@ -10,16 +10,20 @@ Control::Control(Snake* s) {
 void Control::key_pressed(int code) {
     switch (code) {
         case 'w':
-            snake->direction = dir::UP;
+            if (snake->direction != dir::DOWN)
+                snake->direction = dir::UP;
             break;
         case 's':
-            snake->direction = dir::DOWN;
+            if (snake->direction != dir::UP)
+                snake->direction = dir::DOWN;
             break;
         case 'a':
-            snake->direction = dir::LEFT;
+            if (snake->direction != dir::RIGHT)
+                snake->direction = dir::LEFT;
             break;
         case 'd':
-            snake->direction = dir::RIGHT;
+            if (snake->direction != dir::LEFT)
+                snake->direction = dir::RIGHT;
             break;
     }
 }
