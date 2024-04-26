@@ -85,9 +85,10 @@ void Game::update(){
     for (auto r : rabbits)
         v -> draw(r);
     
-    for (auto s : snakes)
+    for (auto s : snakes) {
         v -> draw(s.body, s.direction);
-
+        v -> draw_score(s.score);
+    }
 }
 
 Snake::Snake(coord head) {
@@ -124,6 +125,7 @@ void Game::snake_action() {
             if (*rabbit == new_head) { 
                 rabbits.erase(rabbit);   // changed
                 found = true;
+                snake.score += 10;
                 break;
             }
         }

@@ -66,6 +66,10 @@ void Tview::draw(const coord& rabbit){
     std::cout << std::flush;
 }
 
+void Tview::draw_score(int score) {
+    
+}
+
 void Tview::draw(const coords& body, dir dir){
 
     for (auto segment : body) {

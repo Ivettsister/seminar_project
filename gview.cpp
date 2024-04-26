@@ -2,11 +2,11 @@
 #include <chrono>
 #include <thread>
 
-const int s_width = 1208;
-const int s_height = 808;
-const int s_size = 10;
+const int s_width = 815;
+const int s_height = 610;
+const int s_size = 20;
 
-Gview::Gview() : window(sf::VideoMode(s_width, s_height), "Snake!")
+Gview::Gview() : window(sf::VideoMode(s_width + 200, s_height), "Snake!")
 {
     std::cout << window.getSize().x << " " << window.getSize().y << std::endl;
     window.setFramerateLimit(3);
@@ -21,19 +21,21 @@ Gview::Gview() : window(sf::VideoMode(s_width, s_height), "Snake!")
     rabbit.setScale(static_cast<float>(s_size) / size_rabbit.x, static_cast<float>(s_size) / size_rabbit.y);
     //std::cout << "size: " << rabbit_texture.getSize().x * static_cast<float>(s_size) / size_rabbit.x << std::endl;
     
-    if(!snake_body_texture.loadFromFile("snakebody.jpeg"))
+    if(!snake_body_texture.loadFromFile("snake.jpg"))
         std::cout<< "Failed downloading snakebody_photo!" << std::endl;
     sf::Vector2f size_snake = sf::Vector2f(snake_body_texture.getSize().x, snake_body_texture.getSize().y);
     snake_body.setTexture(snake_body_texture);
     snake_body.setScale(static_cast<float>(s_size) / size_snake.x, static_cast<float>(s_size) / size_snake.y);
 
 
-    if(!snake_head_texture.loadFromFile("snakehead.png"))
+    if(!snake_head_texture.loadFromFile("snakehead.jpg"))
         std::cout<< "Failed downloading snakehead_photo!" << std::endl;
+    sf::Vector2f size_head = sf::Vector2f(snake_head_texture.getSize().x, snake_head_texture.getSize().y);
     snake_head.setTexture(snake_head_texture);
+    snake_head.setScale(static_cast<float>(s_size) / size_head.x, static_cast<float>(s_size) / size_head.y);
 
-    text_box.setCharacterSize(24);
-    if (!font.loadFromFile("arial.ttf"))
+
+    if (!font.loadFromFile("./arial.ttf"))
     {
         std::cout << "Failed downloading text_style!" << std::endl;
     }
@@ -104,39 +106,61 @@ void Gview::draw(const coord& rabbit_) {
 
 void Gview::draw(const coords& body, dir dir) {
     //sf::RectangleShape shape(sf::Vector2f(s_size, s_size));
+    int count_segment = 0;
     for (auto segment : body) {
-        snake_body.setPosition(segment.first * s_size, segment.second * s_size);
-        //shape.setFillColor(sf::Color::Green);
-        window.draw(snake_body);
+        if (count_segment == 0) {
+            snake_head.setPosition(segment.first * s_size, segment.second * s_size);
+            window.draw(snake_head);
+        }
+        else {
+            snake_body.setPosition(segment.first * s_size, segment.second * s_size);
+            window.draw(snake_body);
+        }
+        count_segment += 1;
     }
 }
 
 void Gview::draw_frame() {
-    sf::CircleShape square(s_size, 4);
-    for (int i = 0; i < s_width; i+=8) {
+    sf::CircleShape square(s_size / 4, 4);
+    for (int i = 0; i < s_width + 200; i+=5) {
         square.setPosition(i, 0);
         square.setFillColor(sf::Color::Magenta);
         window.draw(square);
-        square.setPosition(i, s_height - 4);
+        square.setPosition(i, s_height - s_size / 4);
         square.setFillColor(sf::Color::Magenta);
         window.draw(square);
     }
-    for (int i = 0; i < s_height; i+=8) {
+    for (int i = 0; i < s_height; i+=5) {
         square.setPosition(0, i);
         square.setFillColor(sf::Color::Magenta);
         window.draw(square);
-        square.setPosition(s_width - 4, i);
+        square.setPosition(s_width + 200 - s_size / 4, i);
         square.setFillColor(sf::Color::Magenta);
         window.draw(square);
     }
 }
 
+void Gview::draw_score(int score) {
+    sf::CircleShape square(s_size / 4, 4);
+    for (int i = 0; i < s_height; i+=5) {
+        square.setPosition(810, i);
+        square.setFillColor(sf::Color::Magenta);
+        window.draw(square);
+    }
+    text_box.setPosition(830, 50);
+    text_box.setFont(font);
+    text_box.setFillColor(sf::Color::White);
+    text_box.setCharacterSize(18);
+    text_box.setString("Current rating: " + std::to_string(score));
+    window.draw(text_box);
+}
+
 void Gview::quit_game() {
     window.clear();
-    font.loadFromFile("./arial.ttf");
     text_box.setFont(font);
     text_box.setFillColor(sf::Color::Red);
-    text_box.setPosition(s_width / 2 - 100, s_height / 2);
+    text_box.setPosition((s_width + 200) / 2 - 100, s_height / 2);
+    text_box.setCharacterSize(24);
     text_box.setString("Goodbye!");
     window.draw(text_box);
     draw_frame();

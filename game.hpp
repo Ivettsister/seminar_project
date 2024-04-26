@@ -13,6 +13,8 @@ class Snake {
 
     coords body;
     dir direction;
+
+    int score;
 };
 
 class Game {

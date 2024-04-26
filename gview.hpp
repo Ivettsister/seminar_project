@@ -4,9 +4,10 @@
 
 class Gview: public View {
     public:
-    virtual void draw() override;
-    virtual void draw(const coord& rabbit) override;
-    virtual void draw(const coords& body, dir dir) override;
+    void draw() override;
+    void draw(const coord& rabbit) override;
+    void draw(const coords& body, dir dir) override;
+    void draw_score(int score) override;
     void draw_frame();
     virtual void run() override;
     void quit_game();

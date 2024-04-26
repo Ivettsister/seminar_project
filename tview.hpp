@@ -13,8 +13,9 @@ class Tview: public View {
     public:
     bool status = true;
     virtual void draw() override;
-    virtual void draw(const coord& rabbit);
-    virtual void draw(const coords& body, dir dir);
+    void draw(const coord& rabbit) override;
+    void draw(const coords& body, dir dir) override;
+    void draw_score(int score) override;
     virtual void run() override;
     Tview();
     ~Tview();
